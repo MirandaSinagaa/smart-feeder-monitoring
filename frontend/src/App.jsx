@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Settings from './pages/Settings';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import WaterQuality from './pages/WaterQuality';
@@ -12,6 +13,48 @@ import SpreadsheetView from './pages/SpreadsheetView';
 import Cultivation from './pages/Cultivation';
 import { SensorProvider } from './context/SensorContext';
 import { ThemeProvider } from './context/ThemeContext';
+
+const TITLE_MAP = {
+  '/dashboard': 'Dashboard',
+  '/monitoring': 'Kualitas Air & Monitoring',
+  '/water-quality': 'Kualitas Air & Monitoring',
+  '/cultivation': 'Budidaya Bioflok',
+  '/pencatatan-data': 'Budidaya Bioflok',
+  '/logs': 'Riwayat Sensor',
+  '/riwayat': 'Riwayat Sensor',
+  '/settings': 'Pengaturan',
+  '/pengaturan': 'Pengaturan',
+  '/schedules': 'Jadwal Pakan',
+  '/spreadsheet': 'Spreadsheet',
+  '/profile': 'Profil Pengelola',
+  '/login': 'Masuk Akun',
+  '/signin': 'Masuk Akun',
+  '/sign-in': 'Masuk Akun',
+  '/signup': 'Daftar Akun',
+  '/sign-up': 'Daftar Akun',
+  '/register': 'Daftar Akun',
+};
+
+function PageTitleWatcher() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    let pageName = TITLE_MAP[path];
+
+    if (!pageName) {
+      if (path.startsWith('/cultivation') || path.startsWith('/pencatatan-data')) {
+        pageName = 'Budidaya Bioflok';
+      } else {
+        pageName = 'Bioflok IoT Management';
+      }
+    }
+
+    document.title = `Smart Feeder | ${pageName}`;
+  }, [location.pathname]);
+
+  return null;
+}
 
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem('user');
@@ -26,6 +69,7 @@ function App() {
     <ThemeProvider>
       <SensorProvider>
         <BrowserRouter>
+        <PageTitleWatcher />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signin" element={<Login />} />
