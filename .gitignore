@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+venv/
+backend/venv/
+.env
+backend/.env
+backend/.env.*
+!.env.example
+!backend/.env.example
+
+# Python caches & build
+__pycache__/
+backend/__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+frontend/dist/
+build/
+
+# Secret credentials (PENTING: JANGAN DI-PUSH KE GITHUB!)
+credentials.json
+backend/credentials.json
+*.json:Zone.Identifier
+
+# SQLite Database & Local logs
+*.db
+backend/bioflok.db
+*.sqlite3
+*.log
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
