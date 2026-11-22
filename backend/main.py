@@ -72,6 +72,9 @@ try:
         creds_info = json.loads(google_creds_json)
         creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
         gspread_client = gspread.authorize(creds)
+    elif os.path.exists("/etc/secrets/credentials.json"):
+        creds = Credentials.from_service_account_file("/etc/secrets/credentials.json", scopes=SCOPES)
+        gspread_client = gspread.authorize(creds)
     elif os.path.exists(CREDENTIALS_PATH):
         creds = Credentials.from_service_account_file(CREDENTIALS_PATH, scopes=SCOPES)
         gspread_client = gspread.authorize(creds)

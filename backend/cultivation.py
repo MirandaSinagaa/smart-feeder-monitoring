@@ -55,10 +55,12 @@ def get_gspread_client():
             return gspread.authorize(creds)
         except Exception as e:
             print(f"Cultivation gspread env error: {e}")
-    if not os.path.exists(CREDENTIALS_PATH):
+    secret_file_path = "/etc/secrets/credentials.json"
+    target_creds_path = secret_file_path if os.path.exists(secret_file_path) else CREDENTIALS_PATH
+    if not os.path.exists(target_creds_path):
         return None
     try:
-        creds = Credentials.from_service_account_file(CREDENTIALS_PATH, scopes=SCOPES)
+        creds = Credentials.from_service_account_file(target_creds_path, scopes=SCOPES)
         return gspread.authorize(creds)
     except Exception as e:
         print(f"Cultivation gspread client error: {e}")
